@@ -1,0 +1,1258 @@
+/* ==== Cyberpunk Modern Theme for SlightHome =================================
+Palet: putih • ungu • biru • hitam (dengan neon glow)
+Aman untuk struktur HTML/JS yang sudah ada (id/kelas lama tetap dipakai).
+   ========================================================================== */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --bg0: #0a0d17;
+    --bg1: #0b1022;
+    --text: #eaf0ff;
+    --muted: #a6b0d1;
+    --purple: #8b5cff;
+    --purple-2: #6f4dff;
+    --blue: #30c3ff;
+    --blue-2: #1890ff;
+    --pink: #ff4bd6;
+    --cyan: #00e4ff;
+    --yellow: #ffd047;
+    --green: #00f2a9;
+    --red: #ff5b6e;
+    --card: rgba(255, 255, 255, .07);
+    --card-2: rgba(255, 255, 255, .06);
+    --card-3: rgba(255, 255, 255, .10);
+    --border: rgba(255, 255, 255, .14);
+    --shadow-lg: 0 20px 55px rgba(15, 22, 50, .55), 0 0 1px rgba(255, 255, 255, .08);
+    --shadow-md: 0 12px 28px rgba(15, 22, 50, .45);
+    --shadow-sm: 0 6px 16px rgba(15, 22, 50, .40);
+    --r-xl: 22px;
+    --r-lg: 16px;
+    --r-md: 12px;
+    --r-sm: 10px;
+    --grad-hero:
+        radial-gradient(1200px 700px at 10% -10%, rgba(139, 92, 255, .28), transparent 60%),
+        radial-gradient(900px 600px at 95% 10%, rgba(48, 195, 255, .22), transparent 55%),
+        linear-gradient(160deg, #0a0d17 0%, #13193a 40%, #1b0f36 72%, #0b1022 100%);
+    --grad-primary: linear-gradient(90deg, var(--purple), var(--blue));
+    --grad-muted: linear-gradient(90deg, #2a2d42, #1f2235);
+}
+
+:root {
+    --bg-1: #0b0b13;
+    --fg: #e9ecff;
+    --muted: #b6b9d6;
+    --card: #ffffff0f;
+    --card-border: #ffffff1f;
+    --field: #ffffff14;
+    --field-border: #ffffff26;
+    --accent1: #8b5cf6;
+    --accent2: #3b82f6;
+    --danger: #ff5d8f;
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, .45), 0 2px 8px rgba(0, 0, 0, .35);
+    --ring: 0 0 0 3px #8b5cf620, 0 0 25px #3b82f633;
+    --radius: 20px;
+    --radius-sm: 12px;
+    --fw-700: 700;
+    --fw-600: 600;
+}
+
+/* Base + Komponen (dipertahankan) */
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%;
+}
+
+/* TARUH gradient di html, bukan di body */
+html {
+    min-height: 100%;
+    background-image: var(--grad-hero);
+    background-attachment: fixed;
+    /* tetap “diam” saat scroll */
+    background-repeat: no-repeat;
+    /* supaya tidak ke-tile/loop */
+    background-size: cover;
+    /* isi seluruh area dokumen */
+}
+
+/* Body sekarang transparan saja, di atas gradient html */
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: var(--text);
+    background: transparent;
+}
+
+h1,
+h2,
+h3 {
+    font-family: Outfit, Inter, system-ui;
+    letter-spacing: .2px;
+    margin: 0 0 12px;
+}
+
+h1 {
+    font-weight: 700
+}
+
+h2.section-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin: 0 0 12px;
+}
+
+a {
+    color: var(--blue);
+    text-decoration: none
+}
+
+a:hover {
+    text-decoration: underline
+}
+
+.container {
+    max-width: 1200px;
+    margin: 32px auto;
+    padding: 0 16px
+}
+
+.card {
+    background: linear-gradient(to bottom right, rgba(255, 255, 255, .04), rgba(255, 255, 255, .02)) padding-box, linear-gradient(135deg, rgba(139, 92, 255, .5), rgba(48, 195, 255, .35)) border-box;
+    border: 1px solid transparent;
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    padding: 20px
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 12px 14px;
+    box-shadow: var(--shadow-sm)
+}
+
+.flex {
+    display: flex;
+    gap: 10px;
+    align-items: center
+}
+
+.mb-8 {
+    margin-bottom: 8px
+}
+
+.mb-12 {
+    margin-bottom: 12px
+}
+
+.mb-16 {
+    margin-bottom: 16px
+}
+
+.mt-16 {
+    margin-top: 16px
+}
+
+.nowrap {
+    white-space: nowrap
+}
+
+.hide {
+    display: none !important
+}
+
+.hint {
+    color: var(--muted);
+    font-size: .92rem
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    padding: 10px 14px;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px) saturate(140%)
+}
+
+.logo {
+    font-size: 25px;
+    font-family: Outfit;
+    font-weight: 700;
+    letter-spacing: .4px;
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 4px 22px rgba(139, 92, 255, .45))
+}
+
+.body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 16px
+}
+
+@media (max-width:900px) {
+    .body {
+        grid-template-columns: 1fr
+    }
+}
+
+/* Login view (dipertahankan) */
+#view-login {
+    position: relative;
+    min-height: 100vh;
+    color: var(--fg);
+    overflow: hidden;
+    background: radial-gradient(1200px 700px at -10% -20%, #8b5cf624 0%, transparent 70%),
+        radial-gradient(900px 600px at 110% -10%, #3b82f620 0%, transparent 70%),
+        linear-gradient(180deg, #0f0a22 0%, #070812 100%);
+}
+
+#view-login .bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(600px 600px at 80% 5%, #3b82f61f 0%, transparent 60%),
+        radial-gradient(700px 600px at 10% 40%, #8b5cf61a 0%, transparent 65%);
+    filter: blur(.5px);
+}
+
+#view-login .brand {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 22px;
+    font-weight: var(--fw-700);
+    letter-spacing: .2px;
+    z-index: 1;
+}
+
+.logo-dot {
+    width: 48px;
+    height: 48px;
+    display: block;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+}
+
+.logo-glow {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-glow::before {
+    content: "";
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(168, 85, 247, 0.95) 0%,
+            /* ungu terang di tengah */
+            rgba(129, 44, 232, 0.85) 35%,
+            /* ungu medium */
+            rgba(88, 28, 196, 0.0) 75%
+            /* fade ke transparan */
+        );
+    filter: blur(2px);
+    z-index: 0;
+}
+
+
+#view-login .brand-text {
+    color: #ffffffde;
+    font-size: 35px;
+    text-shadow: 0 1px 0 #000;
+}
+
+#view-login .center {
+    position: relative;
+    z-index: 1;
+    min-height: calc(100vh - 64px);
+    display: grid;
+    place-items: start center;
+    padding: clamp(16px, 4vw, 48px);
+}
+
+#view-login .card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 28px 28px 30px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(14px) saturate(120%);
+}
+
+#view-login .title {
+    margin: 0 0 6px 0;
+    font-size: clamp(26px, 3.4vw, 36px);
+    font-weight: var(--fw-700);
+    letter-spacing: .2px;
+    color: #fff;
+}
+
+#view-login .subtitle {
+    margin: 0 0 22px 0;
+    color: var(--muted);
+}
+
+#view-login .form {
+    width: 100%;
+}
+
+#view-login .field {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+#view-login .field input {
+    width: 100%;
+    height: 52px;
+    color: #fff;
+    background: var(--field);
+    border: 1px solid var(--field-border);
+    outline: 0;
+    border-radius: var(--radius-sm);
+    padding: 22px 14px 10px;
+    transition: .2s border-color, .2s box-shadow, .2s background;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+
+/* autofill fix */
+#view-login .field input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #2a2f47 inset !important;
+    -webkit-text-fill-color: #fff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+#view-login .field input::placeholder {
+    color: transparent;
+}
+
+#view-login .field label {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #cbd2ffbb;
+    pointer-events: none;
+    padding: 0 6px;
+    border-radius: 8px;
+    transition: .18s ease;
+    background: linear-gradient(180deg, #1b1e2c 0%, #1a2236 100%);
+    opacity: .9;
+}
+
+#view-login .field input:focus {
+    border-color: #7aa2ff;
+    box-shadow: var(--ring);
+    background: #1e2336;
+}
+
+#view-login .field input:focus+label,
+#view-login .field input:not(:placeholder-shown)+label {
+    top: 6px;
+    transform: none;
+    font-size: 10px;
+    opacity: .95;
+    color: #a9b9ff;
+}
+
+#view-login .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 4px 0 18px;
+}
+
+#view-login .remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    color: #d3d8ffcf;
+}
+
+#view-login .remember input {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 8px;
+    border: 2px solid #727aa9;
+    background: #232845;
+    position: relative;
+    transition: .18s;
+    box-shadow: inset 0 0 0 2px #00000030;
+}
+
+#view-login .remember input:checked {
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    box-shadow: 0 0 10px #6f8cff88;
+}
+
+#view-login .remember input:checked::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 5px;
+    background: #fff;
+}
+
+#view-login .link {
+    color: #8ec2ff;
+    text-decoration: none;
+    font-weight: var(--fw-600);
+}
+
+#view-login .link:hover {
+    text-decoration: underline;
+}
+
+#view-login .btn {
+    width: 100%;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 16px;
+    font-weight: var(--fw-700);
+    letter-spacing: .2px;
+    color: #fff;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    box-shadow: 0 10px 30px #1b2248aa, 0 0 24px #6f89ff55;
+    cursor: pointer;
+    transition: .15s transform, .15s filter, .2s box-shadow;
+}
+
+#view-login .btn:hover {
+    filter: brightness(1.05);
+    box-shadow: 0 12px 36px #1b2248bb, 0 0 28px #87a1ff66;
+}
+
+#view-login .btn:active {
+    transform: translateY(1px);
+}
+
+#view-login .note {
+    margin: 14px 2px 0;
+    color: #cfd3ffb7;
+}
+
+#view-login .error {
+    margin-top: 10px;
+    color: #ffdede;
+    background: #ff5d8f1b;
+    border: 1px solid #ff5d8f40;
+    padding: 10px 12px;
+    border-radius: 12px;
+    display: none;
+}
+
+#view-login #loginErr.show {
+    display: block;
+}
+
+@media (max-width:520px) {
+    #view-login .card {
+        padding: 24px 18px 24px;
+        border-radius: 16px;
+    }
+
+    #view-login .title {
+        font-size: 28px;
+    }
+}
+
+.sidebar {
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    padding: 12px;
+    box-shadow: var(--shadow-md)
+}
+
+.side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
+.side-extra {
+    display: none;
+    /* default: hanya muncul di mobile */
+}
+
+
+.side-link {
+    padding: 10px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, .08);
+    box-shadow: var(--shadow-sm);
+    user-select: none
+}
+
+.side-link:hover {
+    filter: brightness(1.05)
+}
+
+.side-link.active {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .08)) padding-box, var(--grad-primary) border-box;
+    border: 1px solid transparent;
+    box-shadow: 0 10px 26px rgba(48, 195, 255, .25), 0 0 0 1px rgba(139, 92, 255, .15) inset
+}
+
+.main .card {
+    padding: 18px
+}
+
+.lamp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 12px 14px;
+    box-shadow: var(--shadow-sm)
+}
+
+.left {
+    display: flex;
+    margin-right: 90px;
+    align-items: center;
+    /* sejajarkan secara vertikal */
+    gap: 5px;
+    /* jarak antara logo dan teks */
+}
+
+.lamp-col {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05)
+}
+
+.btn:active {
+    transform: translateY(0)
+}
+
+.btn.primary {
+    color: white;
+    background: var(--grad-primary);
+    border: 1px solid transparent;
+    box-shadow: 0 10px 28px rgba(48, 195, 255, .35), 0 0 0 1px rgba(139, 92, 255, .35) inset
+}
+
+.btn.green {
+    color: #031e12;
+    background: linear-gradient(90deg, #00f2a955, #00e1c255)
+}
+
+.btn.red {
+    color: #2b0b10;
+    background: linear-gradient(90deg, #ff5b6e55, #ff3f8255)
+}
+
+.btn.blue {
+    color: white;
+    background: linear-gradient(90deg, #3b5bff, #22c1ff)
+}
+
+.btn.gray {
+    color: white;
+    background: var(--grad-muted)
+}
+
+.btn.soft {
+    background: rgba(255, 255, 255, .10);
+    border: 1px solid rgba(255, 255, 255, .12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), var(--shadow-sm)
+}
+
+.btn.soft.red {
+    background: rgba(255, 91, 110, .15);
+    color: #ffdfe4
+}
+
+.btn.soft.blue {
+    background: rgba(59, 91, 255, .18);
+    color: #e9f2ff
+}
+
+.btn.soft.green {
+    background: rgba(0, 242, 169, .16);
+    color: #dbfff4
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box
+}
+
+ul,
+ol,
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+button {
+    outline: none;
+    -webkit-tap-highlight-color: transparent
+}
+
+.btn,
+.btn.primary,
+.btn.red,
+.btn.green {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: .65rem 1.1rem;
+    border: 0;
+    border-radius: 999px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: .2px;
+    cursor: pointer;
+    white-space: nowrap;
+    background: linear-gradient(135deg, #7646ff 0%, #23c8ff 100%);
+    box-shadow: 0 10px 24px rgba(35, 200, 255, .22), inset 0 -2px 6px rgba(0, 0, 0, .25);
+    background-clip: padding-box;
+    transform: translateZ(0)
+}
+
+.btn.red {
+    background: linear-gradient(135deg, #ff6a88, #ff8a5b)
+}
+
+.btn.green {
+    background: linear-gradient(135deg, #22e1ff, #16a34a)
+}
+
+.btn.gray {
+    background: linear-gradient(135deg, #a7b0c5, #c3cad8)
+}
+
+.all-toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.all-caption {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    color: #e7eeff
+}
+
+.topbar .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap
+}
+
+.switch {
+    --w: 68px;
+    --h: 32px;
+    position: relative;
+    width: var(--w);
+    height: var(--h);
+    border-radius: 999px;
+    border: 0;
+    background: #d6deea;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, .15), 0 8px 20px rgba(10, 16, 34, .06)
+}
+
+.switch::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: calc(var(--h) - 6px);
+    height: calc(var(--h) - 6px);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+    transition: transform .2s
+}
+
+.switch[aria-checked="true"] {
+    background: linear-gradient(135deg, #ffd54a, #ff9100)
+}
+
+.switch[aria-checked="true"]::after {
+    transform: translateX(calc(var(--w) - var(--h)))
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: .84rem;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, .10);
+    border: 1px solid rgba(255, 255, 255, .16);
+    color: #e8ecff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08)
+}
+
+.badge.blue {
+    background: rgba(59, 91, 255, .22);
+    color: #eaf0ff
+}
+
+.badge.green {
+    background: rgba(0, 242, 169, .18);
+    color: #dffdf4
+}
+
+.badge.gray {
+    background: rgba(255, 255, 255, .08);
+    color: #cfd8ff
+}
+
+.badge.red {
+    background: rgba(255, 91, 110, .18);
+    color: #ffe7ec
+}
+
+.input,
+.select {
+    width: 100%;
+    min-height: 42px;
+    color: var(--text);
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 12px;
+    padding: 10px 12px;
+    outline: none;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), var(--shadow-sm)
+}
+
+.input::placeholder {
+    color: #c8d0f0aa
+}
+
+.input:focus,
+.select:focus {
+    border-color: transparent;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .08)) padding-box, var(--grad-primary) border-box;
+    box-shadow: 0 0 0 3px rgba(139, 92, 255, .25), var(--shadow-sm)
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    appearance: none;
+    border-radius: 6px;
+    margin: 2px 0;
+    background: #1f2238;
+    border: 1px solid rgba(255, 255, 255, .22);
+    display: inline-grid;
+    place-content: center;
+    position: relative
+}
+
+input[type="checkbox"]::after {
+    content: "";
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    transform: scale(0);
+    background: var(--grad-primary);
+    transition: transform .16s ease-out;
+    box-shadow: 0 0 10px rgba(48, 195, 255, .45)
+}
+
+input[type="checkbox"]:checked::after {
+    transform: scale(1)
+}
+
+.range {
+    --track: #2a2f4d;
+    --fill: linear-gradient(90deg, #ffd047, #ff8a00);
+    appearance: none;
+    width: clamp(220px, 40vw, 520px);
+    height: 10px;
+    background: linear-gradient(to right, var(--fill)) 0/0% 100% no-repeat, var(--track);
+    border-radius: 999px;
+    outline: none;
+    border: 1px solid rgba(255, 255, 255, .12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 6px 20px rgba(10, 13, 23, .35)
+}
+
+.range::-webkit-slider-runnable-track {
+    height: 10px;
+    background: transparent;
+    border-radius: 999px
+}
+
+.range::-moz-range-track {
+    height: 10px;
+    background: transparent;
+    border-radius: 999px
+}
+
+.range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 0;
+    background: white;
+    box-shadow: 0 0 0 5px rgba(255, 208, 71, .25), 0 10px 22px rgba(255, 168, 0, .35)
+}
+
+.range::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border: 0;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 0 5px rgba(255, 208, 71, .25), 0 10px 22px rgba(255, 168, 0, .35)
+}
+
+.range {
+    background-size: calc((var(--val, 0) * 1%)) 100%, auto
+}
+
+#u-toggleAllBtn.toggle-pill+.toggle-caption,
+#a-toggleAllBtn.toggle-pill+.toggle-caption {
+    display: block;
+    margin-top: .35rem;
+    font: 700 .95rem/1.1 Inter, system-ui;
+    color: #e7eeff;
+    text-align: center;
+    text-shadow: 0 6px 18px rgba(35, 200, 255, .35), 0 1px 0 rgba(0, 0, 0, .4)
+}
+
+.main .grid {
+    display: grid;
+    gap: 16px
+}
+
+@media (max-width:960px) {
+    .main .grid {
+        grid-template-columns: 1fr
+    }
+}
+
+.toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.toggle-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 56px
+}
+
+.toggle-label .ico {
+    line-height: 1
+}
+
+#u-toggleText,
+#a-toggleText {
+    font-weight: 700;
+    letter-spacing: .2px
+}
+
+.toggle-pill {
+    --w: 120px;
+    --h: 36px;
+    position: relative;
+    width: var(--w);
+    height: var(--h);
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #7b5cff 0%, #23c8ff 100%);
+    box-shadow: 0 8px 22px rgba(35, 200, 255, .22), inset 0 -2px 8px rgba(0, 0, 0, .25);
+    overflow: hidden;
+    cursor: pointer;
+    color: transparent !important;
+    font-size: 0
+}
+
+.toggle-pill::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(var(--h) - 8px);
+    height: calc(var(--h) - 8px);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+    transform: translateX(0);
+    transition: transform .28s cubic-bezier(.22, 1, .36, 1);
+    will-change: transform
+}
+
+.toggle-pill[aria-pressed="true"]::after {
+    transform: translateX(calc(var(--w) - var(--h)))
+}
+
+.toggle-pill.sm {
+    --w: 70px;
+    --h: 32px
+}
+
+.all-label {
+    margin-bottom: 5px
+}
+
+.all-label .bulb {
+    font-size: 20px;
+    filter: grayscale(.7) opacity(.55);
+    transition: filter .25s, opacity .25s, text-shadow .25s
+}
+
+.toggleShell[data-on="true"] .bulb {
+    filter: none;
+    text-shadow: 0 0 10px rgba(255, 232, 120, .9), 0 0 4px rgba(255, 232, 120, .6);
+    opacity: 1
+}
+
+.topbar .right {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.toggleShell {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+button:focus-visible,
+.side-link:focus-visible,
+.input:focus-visible,
+.select:focus-visible,
+.auth-wrap input:focus-visible {
+    outline: 3px solid rgba(48, 195, 255, .45);
+    outline-offset: 2px;
+    border-radius: 12px
+}
+
+/* === (A) Perbaikan kontras opsi dropdown: teks hitam, latar putih saat menu select dibuka === */
+.select option,
+.select optgroup {
+    color: #111 !important;
+    background: #fff !important;
+}
+
+/* (opsional) rapikan number input: sembunyikan spinner agar clean */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* === (B) Chip toggle hari agar menyatu dan konsisten dengan tema === */
+.day-toggle-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.day-chip {
+    border: 0;
+    cursor: pointer;
+    padding: .5rem .9rem;
+    border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    color: #e9ecff;
+    background: rgba(255, 255, 255, .10);
+    border: 1px solid rgba(255, 255, 255, .16);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), var(--shadow-sm);
+    transition: transform .12s ease, filter .12s ease, box-shadow .2s ease;
+}
+
+.day-chip:hover {
+    filter: brightness(1.06)
+}
+
+.day-chip:active {
+    transform: translateY(1px)
+}
+
+.day-chip[aria-pressed="true"] {
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    border-color: transparent;
+    box-shadow: 0 10px 24px rgba(35, 200, 255, .22), inset 0 -2px 6px rgba(0, 0, 0, .25);
+}
+
+.day-chip.clear {
+    background: var(--grad-muted);
+    color: #d8def5;
+}
+
+/* === MOBILE SUPPORT (layout only; tidak ubah warna/bentuk) === */
+.topbar .menu-btn {
+    display: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    color: var(--text);
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Grid 2 kolom yang bisa collapse di mobile */
+.main .grid.two-col {
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width:960px) {
+    .main .grid.two-col {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === MOBILE: menu lewat hamburger, sidebar jadi dropdown padat === */
+@media (max-width:600px) {
+    .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+    }
+
+    .topbar .menu-btn {
+        display: inline-flex;
+    }
+
+    #view-user .topbar,
+    #view-admin .topbar {
+        justify-content: flex-start;
+        /* bukan space-between */
+        gap: 8px;
+    }
+
+    /* hamburger paling kiri */
+    #view-user .menu-btn,
+    #view-admin .menu-btn {
+        order: 0;
+    }
+
+    /* logo + teks Lumio di tengah (masih di sisi kiri layar) */
+    #view-user .topbar .left,
+    #view-admin .topbar .left {
+        order: 1;
+    }
+
+    /* badge Role di sebelahnya */
+    #view-user .topbar .right,
+    #view-admin .topbar .right {
+        display: flex;
+        order: 2;
+        padding: 0;
+    }
+
+    /* All ON/OFF & Logout tetap disembunyikan di topbar mobile */
+    #view-user #u-all,
+    #view-admin #a-all,
+    #view-user #u-logout,
+    #view-admin #a-logout {
+        display: none;
+    }
+
+    /* badge Role tetap muncul */
+    #view-user #u-role,
+    #view-admin #a-role {
+        display: inline-flex;
+    }
+
+
+    #view-user .menu-btn,
+    #view-admin .menu-btn {
+        order: 1;
+        /* hamburger di paling kiri */
+    }
+
+    /* Body jadi container relatif untuk sidebar overlay */
+    .body {
+        position: relative;
+    }
+
+    /* Sidebar disembunyikan dan dijadikan panel dropdown */
+    .sidebar {
+        display: none;
+        position: sticky;
+        top: 75px;
+        left: 0;
+        right: 0;
+        z-index: 45;
+        padding: 10px;
+        background: rgba(7, 10, 22, 0.96);
+        border-radius: var(--r-xl);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: var(--shadow-lg);
+        backdrop-filter: blur(20px) saturate(135%);
+    }
+
+    /* Saat topbar punya class menu-open (dari JS), sidebar muncul */
+    .topbar.menu-open+.body .sidebar {
+        display: block;
+    }
+
+    /* 2) Layout lamp-row di MOBILE:
+          - semua label/status nempel di kiri dekat nama
+          - toggle + icon nempel di kanan */
+    .item {
+        flex-wrap: wrap;
+    }
+
+    .lamp-row {
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    .lamp-row .lamp-col {
+        width: auto;
+        flex-wrap: wrap;
+        /* label2 boleh turun baris */
+        justify-content: flex-start;
+        /* TIDAK space-between lagi */
+    }
+
+    .lamp-row .lamp-col:first-child {
+        flex: 1;
+        min-width: 0;
+        /* teks boleh wrap */
+    }
+
+    .lamp-row .lamp-col:last-child {
+        margin-left: auto;
+        /* blok toggle geser ke kanan */
+        justify-content: flex-end;
+    }
+
+    .range {
+        width: 130px;
+        /* slider lebih pendek di mobile */
+    }
+
+    .room-chips,
+    .admin-chips,
+    .admin-members {
+        flex-wrap: wrap;
+    }
+
+    .list .item .flex {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .hint,
+    .badge {
+        overflow-wrap: anywhere;
+    }
+
+    /* Menu ekstra di dalam sidebar hanya muncul di mobile */
+    .side-extra {
+        display: block;
+        margin-top: 12px;
+        border-top: 1px dashed rgba(255, 255, 255, .16);
+        padding-top: 10px;
+    }
+
+    /* ==== Rooms Admin: header card biar nggak nembus di mobile ==== */
+
+    /* Baris: "Nama room | Lampu: x | 💡 ON | toggle | Hapus" boleh turun ke baris 2 */
+    #view-admin .main .card[data-room]>.flex:first-child {
+        flex-wrap: wrap;
+        /* izinkan wrap */
+        gap: 8px;
+        /* jarak antar elemen biar nggak dempet */
+    }
+
+    /* Grup kanan (toggle + tombol Hapus) tetap nempel di kanan barisnya */
+    #view-admin .main .card[data-room]>.flex:first-child>.flex:last-child {
+        margin-left: auto;
+    }
+
+    /* Pastikan chip & checkbox di dalam card nggak bikin horizontal scroll */
+    #view-admin .main .card[data-room] .admin-chips,
+    #view-admin .main .card[data-room] .admin-members {
+        width: 100%;
+    }
+
+    /* ==== Rooms Admin: kecilkan toggle room di mobile agar knob tidak nembus ==== */
+    #view-admin .main .card[data-room] .toggleShell .toggle-pill {
+        --w: 64px;
+        /* dari 70px → sedikit lebih pendek */
+        --h: 30px;
+        /* sedikit lebih pendek juga supaya proporsional */
+    }
+
+
+}
