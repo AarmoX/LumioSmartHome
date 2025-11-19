@@ -19,21 +19,21 @@
 
     window.app.a_view = "rooms";
 
-function a_updateNav() {
-    // highlight menu aktif
-    document.querySelectorAll("#a-sideNav .side-link")
-        .forEach(el => el.classList.toggle("active", el.dataset.view === window.app.a_view));
-
-    // update atribut tombol ALL
-    const btn = qs("#a-toggleAllBtn");
-    if (btn) {
-        const allOn = state.lamp1 && state.lamp2 && state.dimP;
-        btn.textContent = allOn ? "All OFF" : "All ON";
-        btn.dataset.caption = allOn ? "ALL ON" : "ALL OFF";
-        btn.setAttribute("aria-pressed", allOn ? "true" : "false");
+    function a_updateNav() {
+        // highlight menu aktif
+        document.querySelectorAll("#a-sideNav .side-link")
+            .forEach(el => el.classList.toggle("active", el.dataset.view === window.app.a_view));
+    
+        // update atribut tombol ALL
+        const btn = qs("#a-toggleAllBtn");
+        if (btn) {
+            const allOn = state.lamp1 && state.lamp2 && state.dimP;
+            btn.textContent = allOn ? "All OFF" : "All ON";
+            btn.dataset.caption = allOn ? "ALL ON" : "ALL OFF";
+            btn.setAttribute("aria-pressed", allOn ? "true" : "false");
+        }
+        syncAllToggleAdmin();
     }
-    syncAllToggleAdmin();
-}
 
     function renderAdmin() {
         const root = qs("#a-view");
@@ -484,3 +484,4 @@ function a_updateNav() {
     window.app.a_updateNav = a_updateNav;
 
 })();
+
