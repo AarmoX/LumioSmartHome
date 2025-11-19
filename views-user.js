@@ -32,13 +32,20 @@
     window.app.u_view = "dashboard";
 
     function u_updateNav() {
-        document.querySelectorAll("#u-sideNav .side-link").forEach(el => el.classList.toggle("active", el.dataset.view === window.app.u_view));
-        const btn = qs("#u-toggleAllBtn");
+    // highlight menu aktif
+    document.querySelectorAll("#u-sideNav .side-link")
+        .forEach(el => el.classList.toggle("active", el.dataset.view === window.app.u_view));
+
+    // tetap update atribut tombol (aksesibilitas)
+    const btn = qs("#u-toggleAllBtn");
+    if (btn) {
         const allOn = state.lamp1 && state.lamp2 && state.dimP;
         btn.textContent = allOn ? "All OFF" : "All ON";
         btn.dataset.caption = allOn ? "ALL ON" : "ALL OFF";
         btn.setAttribute("aria-pressed", allOn ? "true" : "false");
     }
+    syncAllToggleUser();
+}
 
     function renderUser() {
         const root = qs("#u-view");
@@ -304,4 +311,5 @@
     window.app.renderUser = renderUser;
     window.app.renderUserBoot = renderUserBoot;
     window.app.u_updateNav = u_updateNav;
+
 })();
