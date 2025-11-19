@@ -5,6 +5,41 @@
 
     const state = { lamp1: false, lamp2: false, dimP: false, dimL: 0, online: false };
 
+    // cache shadow dari berbagai sumber (reported, desired, relay legacy)
+const shadow = {
+    desired: {},
+    reported: {}
+};
+
+function recomputeBoolFromShadow(key) {
+    let val;
+    if (Object.prototype.hasOwnProperty.call(shadow.reported, key)) {
+        val = shadow.reported[key];
+    } else if (Object.prototype.hasOwnProperty.call(shadow.desired, key)) {
+        val = shadow.desired[key];
+    } else {
+        val = false;
+    }
+
+    if (key === "lamp1") state.lamp1 = !!val;
+    else if (key === "lamp2") state.lamp2 = !!val;
+    else if (key === "dimP") state.dimP = !!val;
+}
+
+function recomputeDimLevel() {
+    let val;
+    if (Object.prototype.hasOwnProperty.call(shadow.reported, "dimL")) {
+        val = shadow.reported.dimL;
+    } else if (Object.prototype.hasOwnProperty.call(shadow.desired, "dimL")) {
+        val = shadow.desired.dimL;
+    } else {
+        val = undefined;
+    }
+    if (typeof val === "number") {
+        state.dimL = val;
+    }
+}
+    
     const CHANNELS = {
         lamp1: { label: "Lampu 1", type: "switch" },
         lamp2: { label: "Lampu 2", type: "switch" },
@@ -27,37 +62,151 @@
         if (_rafTick) return;
         _rafTick = requestAnimationFrame(() => {
             _rafTick = null;
+    
             const u_on = !hidden("#view-user");
             const a_on = !hidden("#view-admin");
             const animLock = (window.app.uiFlags.animLockUntil || 0) > Date.now();
+    
+            // === USER ===
             if (u_on) {
-                if (["dashboard", "rooms"].includes(window.app.u_view)) {
-                    if (window.app.uiFlags.userDimmerDragging || animLock) window.app.u_updateNav(); else window.app.renderUser();
-                } else { window.app.u_updateNav(); }
+                if (window.app.u_view === "dashboard") {
+                    // Di dashboard: tetap lindungi animasi slider dimmer biar halus
+                    if (window.app.uiFlags.userDimmerDragging || animLock) {
+                        window.app.u_updateNav();
+                    } else {
+                        window.app.renderUser();
+                    }
+                } else {
+                    // Di Rooms & Schedules → SELALU render ulang penuh
+                    window.app.renderUser();
+                }
             }
+    
+            // === ADMIN ===
             if (a_on) {
-                if (["dashboard", "rooms", "schedules", "log"].includes(window.app.a_view)) {
-                    if (animLock) window.app.a_updateNav(); else window.app.renderAdmin();
-                } else { window.app.a_updateNav(); }
+                // Admin: selalu render ulang view aktif (Rooms, Schedules, Log)
+                window.app.renderAdmin();
             }
         });
     }
+
 
     const dPath = k => `devices/${DEVICE_ID}/shadow/desired/${k}`;
     const rPath = k => `devices/${DEVICE_ID}/shadow/reported/${k}`;
 
     function subscribeReported() {
-        db.ref(rPath("lamp1")).on("value", s => { state.lamp1 = !!s.val(); refreshIfVisible(); });
-        db.ref(rPath("lamp2")).on("value", s => { state.lamp2 = !!s.val(); refreshIfVisible(); });
-        db.ref(rPath("dimmer/power")).on("value", s => { state.dimP = !!s.val(); refreshIfVisible(); });
-        db.ref(rPath("dimmer/level")).on("value", s => { const v = s.val(); if (typeof v === "number") state.dimL = v; refreshIfVisible(); });
-    }
+    // === shadow/reported → isi bucket reported ===
+    db.ref(rPath("lamp1")).on("value", s => {
+        shadow.reported.lamp1 = !!s.val();
+        recomputeBoolFromShadow("lamp1");
+        refreshIfVisible();
+    });
+
+    db.ref(rPath("lamp2")).on("value", s => {
+        shadow.reported.lamp2 = !!s.val();
+        recomputeBoolFromShadow("lamp2");
+        refreshIfVisible();
+    });
+
+    db.ref(rPath("dimmer/power")).on("value", s => {
+        shadow.reported.dimP = !!s.val();
+        recomputeBoolFromShadow("dimP");
+        refreshIfVisible();
+    });
+
+    db.ref(rPath("dimmer/level")).on("value", s => {
+        const v = s.val();
+        if (typeof v === "number") {
+            shadow.reported.dimL = v;
+            recomputeDimLevel();
+            refreshIfVisible();
+        }
+    });
+
+    // === shadow/desired → fallback, hanya kalau reported belum ada ===
+    db.ref(dPath("lamp1")).on("value", s => {
+        if (s.exists()) {
+            shadow.desired.lamp1 = !!s.val();
+        } else {
+            delete shadow.desired.lamp1;
+        }
+        recomputeBoolFromShadow("lamp1");
+        refreshIfVisible();
+    });
+
+    db.ref(dPath("lamp2")).on("value", s => {
+        if (s.exists()) {
+            shadow.desired.lamp2 = !!s.val();
+        } else {
+            delete shadow.desired.lamp2;
+        }
+        recomputeBoolFromShadow("lamp2");
+        refreshIfVisible();
+    });
+
+    db.ref(dPath("dimmer/power")).on("value", s => {
+        if (s.exists()) {
+            shadow.desired.dimP = !!s.val();
+        } else {
+            delete shadow.desired.dimP;
+        }
+        recomputeBoolFromShadow("dimP");
+        refreshIfVisible();
+    });
+
+    db.ref(dPath("dimmer/level")).on("value", s => {
+        const v = s.val();
+        if (typeof v === "number") {
+            shadow.desired.dimL = v;
+        } else {
+            delete shadow.desired.dimL;
+        }
+        recomputeDimLevel();
+        refreshIfVisible();
+    });
+}
+    
     function subscribeLegacyRelays() {
         db.ref(RELAY_PATHS.lamp1).on("value", s => { const v = s.val(); if (typeof v === "boolean") { state.lamp1 = v; refreshIfVisible(); } });
         db.ref(RELAY_PATHS.lamp2).on("value", s => { const v = s.val(); if (typeof v === "boolean") { state.lamp2 = v; refreshIfVisible(); } });
         db.ref(RELAY_PATHS.dimmerPower).on("value", s => { const v = s.val(); if (typeof v === "boolean") { state.dimP = v; refreshIfVisible(); } });
-        db.ref(RELAY_PATHS.dimmerLevel).on("value", s => { const v = s.val(); if (typeof v === "number") { state.dimL = v; refreshIfVisible(); } });
-    }
+        db.function subscribeLegacyRelays() {
+    db.ref(RELAY_PATHS.lamp1).on("value", s => {
+        const v = s.val();
+        if (typeof v === "boolean") {
+            shadow.reported.lamp1 = v;
+            recomputeBoolFromShadow("lamp1");
+            refreshIfVisible();
+        }
+    });
+
+    db.ref(RELAY_PATHS.lamp2).on("value", s => {
+        const v = s.val();
+        if (typeof v === "boolean") {
+            shadow.reported.lamp2 = v;
+            recomputeBoolFromShadow("lamp2");
+            refreshIfVisible();
+        }
+    });
+
+    db.ref(RELAY_PATHS.dimmerPower).on("value", s => {
+        const v = s.val();
+        if (typeof v === "boolean") {
+            shadow.reported.dimP = v;
+            recomputeBoolFromShadow("dimP");
+            refreshIfVisible();
+        }
+    });
+
+    db.ref(RELAY_PATHS.dimmerLevel).on("value", s => {
+        const v = s.val();
+        if (typeof v === "number") {
+            shadow.reported.dimL = v;
+            recomputeDimLevel();
+            refreshIfVisible();
+        }
+    });
+}
 
     const nowServerMs = () => Date.now() + (_serverOffset || 0);
     function recomputeOnline() {
@@ -154,4 +303,5 @@
         deviceLabel, devicePowerState, refreshIfVisible,
         pad2: (n) => String(n).padStart(2, "0")
     });
+
 })();
