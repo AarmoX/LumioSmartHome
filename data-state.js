@@ -167,10 +167,6 @@ function recomputeDimLevel() {
 }
     
     function subscribeLegacyRelays() {
-        db.ref(RELAY_PATHS.lamp1).on("value", s => { const v = s.val(); if (typeof v === "boolean") { state.lamp1 = v; refreshIfVisible(); } });
-        db.ref(RELAY_PATHS.lamp2).on("value", s => { const v = s.val(); if (typeof v === "boolean") { state.lamp2 = v; refreshIfVisible(); } });
-        db.ref(RELAY_PATHS.dimmerPower).on("value", s => { const v = s.val(); if (typeof v === "boolean") { state.dimP = v; refreshIfVisible(); } });
-        db.function subscribeLegacyRelays() {
     db.ref(RELAY_PATHS.lamp1).on("value", s => {
         const v = s.val();
         if (typeof v === "boolean") {
@@ -305,3 +301,4 @@ function recomputeDimLevel() {
     });
 
 })();
+
